@@ -9,10 +9,32 @@ let customers = [
     { id: 3, name: "UOL", site: "http://uol.com.br" }
   ];
 
+  server.use(express.json())
+
   server.get("/",(request,response)=>{
     return response.json({message:"Hello World"})
 
   })
+
+//   criar 
+server.post("/customers",(request,response)=>{
+   const {name,site}=request.body
+   const {id}=customers[customers.length-1]+1;
+   const newCustomer={
+     id ,
+     name,
+     site
+   }
+   customers.push(newCustomer)
+   return response.status(201).json(newCustomer)
+  })
+//   listagem 
+  server.get("/customers",(request,response)=>{
+    return response.json(customers)
+
+  })
+
+  
 
   server.listen(3333,()=>{
     console.log("Server running on port 3333")
