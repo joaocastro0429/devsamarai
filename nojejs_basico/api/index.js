@@ -30,11 +30,19 @@ server.post("/customers",(request,response)=>{
   })
 //   listagem 
   server.get("/customers",(request,response)=>{
-    return response.json(customers)
+    return response.status(200).json(customers)
+
+  })
+  server.get("/customers/:id",(request,response)=>{
+    const {id}=request.params
+    const customer=customers.find(user=>user.id===+id)
+
+    if(!customer) return response.status(404).json({message:"Customer not found"})
+
+    return response.status(200).json(customers)
 
   })
 
-  
 
   server.listen(3333,()=>{
     console.log("Server running on port 3333")
