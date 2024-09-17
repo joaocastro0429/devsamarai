@@ -19,8 +19,8 @@ let customers = [
 //   criar 
 server.post("/customers",(request,response)=>{
    const {name,site}=request.body
-   const {id}=customers[customers.length-1]+1;
-   const newCustomer={
+   const id= customers[customers.length - 1].id + 1;
+    const newCustomer={
      id ,
      name,
      site
@@ -43,6 +43,28 @@ server.post("/customers",(request,response)=>{
 
   })
 
+  server.put("/customers/:id",(request,response)=>{
+    const {id}= request.params
+    const {name,site}=request.body
+    const customerIndex=customers.findIndex(user=>user.id===+id)
+    if(!customerIndex){
+        customers[customerIndex].name=name
+        customers[customerIndex].site=site
+    }
+    return response.status(200).json(customers[customerIndex])
+})
+
+server.delete("/customers/:id",(request,response)=>{
+    const {id}=request.params
+    const indexTd=customers.findIndex(user=>user.id===+id)
+
+    customers.splice(indexTd,1)
+
+    return response.status(204).json()
+
+
+    customers.splice(i, id)
+})
 
   server.listen(3333,()=>{
     console.log("Server running on port 3333")
